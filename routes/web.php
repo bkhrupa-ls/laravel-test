@@ -19,12 +19,15 @@ Route::get('/', function () {
 
 Route::redirect('/dashboard', '/sales');
 
-Route::get('/sales', function () {
-    return view('coffee_sales');
-})->middleware(['auth'])->name('coffee.sales');
+Route::middleware(['auth'])
+    ->group(function () {
+        Route::get('/sales', [\App\Http\Controllers\SalesController::class, 'index'])
+            ->name('sales.index');
 
-Route::get('/shipping-partners', function () {
-    return view('shipping_partners');
-})->middleware(['auth'])->name('shipping.partners');
+        Route::get('/shipping-partners', function () {
+            return view('shipping_partners');
+        })
+            ->name('shipping.partners');
+    });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
