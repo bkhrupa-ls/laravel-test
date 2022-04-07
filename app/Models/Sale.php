@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\SaleObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,16 @@ class Sale extends Model
         'unit_cost' => 'decimal:2',
         'selling_price' => 'decimal:2',
     ];
+
+    protected $fillable = [
+        'quantity',
+        'unit_cost',
+    ];
+
+    protected static function booted()
+    {
+        self::observe(SaleObserver::class);
+    }
 
     public static function calcSellingPrice(int $quantity, float $unitCost): float|int
     {

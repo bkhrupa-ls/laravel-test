@@ -23,6 +23,8 @@ Route::middleware(['auth'])
     ->group(function () {
         Route::get('/sales', [\App\Http\Controllers\SalesController::class, 'index'])
             ->name('sales.index');
+        Route::post('/sales', [\App\Http\Controllers\SalesController::class, 'store'])
+            ->name('sales.store');
 
         Route::get('/shipping-partners', function () {
             return view('shipping_partners');
