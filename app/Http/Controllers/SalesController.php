@@ -31,7 +31,11 @@ class SalesController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        Sale::query()->create($request->all());
+        $sale = new Sale();
+
+        $sale->quantity = $request->get('quantity', 0);
+        $sale->unit_cost = $request->get('unit_cost', 0) * 100;
+        $sale->save();
 
         return redirect(route('sales.index'))
             ->with('status', 'Record successfully created!');

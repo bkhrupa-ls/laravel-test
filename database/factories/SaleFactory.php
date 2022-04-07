@@ -18,7 +18,7 @@ class SaleFactory extends Factory
     public function definition()
     {
         $quantity = rand(1, 10);
-        $unitCost = $this->faker->randomFloat(2, 10, 100);
+        $unitCost = money(rand(1000, 3000));
 
         return [
             'quantity' => $quantity,

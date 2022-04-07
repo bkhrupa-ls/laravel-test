@@ -27,10 +27,12 @@ class StoreRequest extends FormRequest
             'quantity' => [
                 'required',
                 'integer',
+                'gt:0'
             ],
             'unit_cost' => [
                 'required',
                 'numeric',
+                'gt:0'
             ],
         ];
     }

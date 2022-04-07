@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use App\Observers\SaleObserver;
+use Cknow\Money\Casts\MoneyIntegerCast;
+use Cknow\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
  * @property int $quantity
- * @property float $unit_cost
- * @property float $selling_price
+ * @property \Cknow\Money\Money $unit_cost
+ * @property \Cknow\Money\Money $selling_price
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  */
@@ -18,15 +20,14 @@ class Sale extends Model
 {
     use HasFactory;
 
-    const PROFIT_MARGIN = 0.25;
+    const PROFIT_MARGIN = 25;
 
-    // pounds
-    const SHIPPING_COST = 10;
+    const SHIPPING_COST = 1000; // 10.00
 
     protected $casts = [
         'quantity' => 'int',
-        'unit_cost' => 'decimal:2',
-        'selling_price' => 'decimal:2',
+        'unit_cost' => MoneyIntegerCast::class,
+        'selling_price' => MoneyIntegerCast::class,
     ];
 
     protected $fillable = [
@@ -39,22 +40,17 @@ class Sale extends Model
         self::observe(SaleObserver::class);
     }
 
-    public static function calcSellingPrice(int $quantity, float $unitCost): float|int
+    public static function calcSellingPrice(int $quantity, Money $unitCost): Money
     {
-        $cost = $quantity * $unitCost;
+        $cost = $unitCost->multiply($quantity);
 
-        if ($cost == 0) {
-            return 0;
+        if ($cost->isZero()) {
+            return $cost;
         }
 
-        $sellingPrice = ($cost / (1 - self::PROFIT_MARGIN)) + self::SHIPPING_COST;
-
-        return round($sellingPrice, 2);
+        return $cost
+            ->multiply(100)
+            ->divide(100 - self::PROFIT_MARGIN)
+            ->add(money(self::SHIPPING_COST));
     }
-
-    // TODO
-//    public function setSellingPriceAttribute($value)
-//    {
-//
-//    }
 }

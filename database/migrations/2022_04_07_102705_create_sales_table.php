@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->unsignedSmallInteger('quantity');
-            $table->decimal('unit_cost');
-            $table->decimal('selling_price');
+            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('unit_cost');
+            $table->unsignedInteger('selling_price');
             $table->timestamps();
         });
     }

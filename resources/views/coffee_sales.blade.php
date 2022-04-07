@@ -91,10 +91,10 @@
                                                     {{ $sale->quantity }}
                                                 </td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                    £{{ $sale->unit_cost }}
+                                                    {{ $sale->unit_cost->format() }}
                                                 </td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                    £{{ $sale->selling_price }}
+                                                    {{ $sale->selling_price->format() }}
                                                 </td>
                                             </tr>
                                         @empty

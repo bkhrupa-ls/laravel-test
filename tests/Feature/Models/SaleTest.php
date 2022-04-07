@@ -16,13 +16,13 @@ class SaleTest extends TestCase
         $sale = new Sale();
 
         $sale->quantity = 10.81;
-        // will be rounded
-        $sale->unit_cost = 20.5411;
-        $sale->selling_price = 63.6798;
+        $sale->unit_cost = 2054;
+        $sale->selling_price = 6368;
 
         $this->assertSame(10, $sale->quantity);
-        $this->assertSame('20.54', $sale->unit_cost);
-        $this->assertSame('63.68', $sale->selling_price);
+        $this->assertSame('2054', $sale->unit_cost->getAmount());
+        $this->assertSame('6368', $sale->selling_price->getAmount());
+        $this->assertSame('63.68', $sale->selling_price->formatByDecimal());
     }
 
     public function dataSellingPrices(): array
@@ -35,23 +35,23 @@ class SaleTest extends TestCase
             ],
             [
                 1,
-                10,
-                23.33
+                1000,
+                2333
             ],
             [
                 2,
-                20.50,
-                64.67
+                2050,
+                6467
             ],
             [
                 5,
-                12.00,
-                90.00
+                1200,
+                9000
             ],
             [
                 7,
-                50.88,
-                484.88
+                5088,
+                48488
             ]
         ];
     }
@@ -61,9 +61,14 @@ class SaleTest extends TestCase
      */
     public function testCalcSellingPrice($quantity, $unitCost, $expectedSellingPrice)
     {
-        $this->assertEquals(
-            Sale::calcSellingPrice($quantity, $unitCost),
-            $expectedSellingPrice
+        $expectedSellingPrice = money($expectedSellingPrice);
+        $unitCost = money($unitCost);
+
+        $result = Sale::calcSellingPrice($quantity, $unitCost);
+
+        $this->assertSame(
+            $result->getAmount(),
+            $expectedSellingPrice->getAmount()
         );
     }
 }
