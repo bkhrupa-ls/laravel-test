@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,13 @@ Route::middleware(['auth'])
             return view('shipping_partners');
         })
             ->name('shipping.partners');
+
+        //
+        Route::post(
+            '/ajax/sale/calc-selling-price',
+            [\App\Http\Controllers\AjaxController::class, 'actionCalcSellingPrice']
+        )
+            ->name('ajax.sale.calc-selling-price');
     });
 
 require __DIR__ . '/auth.php';

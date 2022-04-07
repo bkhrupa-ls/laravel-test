@@ -14,14 +14,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-
                     <!-- Session Status -->
                     <x-session-status class="mb-4" :status="session('status')" />
 
                     <!-- Validation Errors -->
                     <x-validation-errors class="mb-4" :errors="$errors" />
 
-                    <div class="mb-6">
+                    <div class="mb-6" x-data="initSalesForm()">
                         <form action="{{ route('sales.store') }}" method="post">
                             {{ csrf_field() }}
 
@@ -33,6 +32,8 @@
                                              type="text"
                                              name="quantity"
                                              :value="old('quantity')"
+                                             x-model="quantity"
+                                             @keyup="getSellingPrice()"
                                              />
                                 </div>
                                 <div class="w-full px-2 md:w-1/4">
@@ -42,14 +43,16 @@
                                              type="text"
                                              name="unit_cost"
                                              :value="old('unit_cost')"
+                                             x-model="unit_cost"
+                                             @keyup="getSellingPrice()"
                                              />
                                 </div>
                                 <div class="w-full px-2 md:w-1/4">
                                     <div class="block font-medium text-sm text-gray-700 mb-1">
                                         {{ __('Selling Price') }}
                                     </div>
-                                    <div class="rounded-md h-10 border border-gray-300">
-                                        {{-- TODO calc via ajax call --}}
+                                    <div class="h-10 pt-2">
+                                        <span x-text="selling_price"></span>
                                     </div>
                                 </div>
                                 <div class="w-full px-2 md:w-1/4">
