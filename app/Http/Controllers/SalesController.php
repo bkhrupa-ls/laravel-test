@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -13,7 +14,12 @@ class SalesController extends Controller
      */
     public function index()
     {
-        return view('coffee_sales');
+        $sales = Sale::query()
+            ->orderByDesc('created_at')
+            ->paginate();
+
+        return view('coffee_sales')
+            ->with('sales', $sales);
     }
 
     /**
