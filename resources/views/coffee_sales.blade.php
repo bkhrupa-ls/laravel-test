@@ -98,6 +98,9 @@
                                         <thead class="border-b">
                                         <tr>
                                             <th class="px-6 py-4 text-left">
+                                                {{ __('Product') }}
+                                            </th>
+                                            <th class="px-6 py-4 text-left">
                                                 {{ __('Quantity') }}
                                             </th>
                                             <th class="px-6 py-4 text-left">
@@ -115,15 +118,22 @@
                                         @forelse($sales as $sale)
                                             <tr class="border-b">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                    @if ($sale->product)
+                                                        {{ $sale->product->name }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ $sale->quantity }}
                                                 </td>
-                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ $sale->unit_cost->format() }}
                                                 </td>
-                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ $sale->selling_price->format() }}
                                                 </td>
-                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ optional($sale->created_at)->format('Y-m-d H:i') }}
                                                 </td>
                                             </tr>
