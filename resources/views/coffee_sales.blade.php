@@ -106,6 +106,9 @@
                                             <th class="px-6 py-4 text-left">
                                                 {{ __('Selling Price') }}
                                             </th>
+                                            <th class="px-6 py-4 text-left">
+                                                {{ __('Sold at') }}
+                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -120,11 +123,14 @@
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                                     {{ $sale->selling_price->format() }}
                                                 </td>
+                                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                    {{ optional($sale->created_at)->format('Y-m-d H:i') }}
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr class="border-b">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                                                    colspan="3">
+                                                    colspan="4">
                                                     {{ __('Sales not yet created.') }}
                                                 </td>
                                             </tr>
