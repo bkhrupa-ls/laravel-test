@@ -14,9 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
-            'name' => 'Sales Agent',
-            'email' => 'sales@coffee.shop',
-        ]);
+        $this->call(UserSeeder::class);
+        $this->call(ProductSeeder::class);
     }
 }
