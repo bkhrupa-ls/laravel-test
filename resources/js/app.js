@@ -15,13 +15,17 @@ if (token) {
 }
 
 window.initSalesForm = function () {
+    let formSalesProduct = document.getElementById('formSalesProduct');
+
     return {
+        product: formSalesProduct.options[formSalesProduct.selectedIndex].value,
         quantity: '',
         unit_cost: '',
         selling_price: '-',
 
         getSellingPrice() {
             axios.post(route('ajax.sale.calc-selling-price'), {
+                product: this.product,
                 quantity: this.quantity,
                 unit_cost: this.unit_cost
             })

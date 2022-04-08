@@ -18,7 +18,8 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'code' => $this->faker->bothify('?###??##')
+            'code' => $this->faker->bothify('?###??##'),
+            'profit_margin' => array_rand([10, 15, 20, 15])
         ];
     }
 }

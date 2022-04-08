@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Sales\StoreRequest;
+use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -15,11 +16,16 @@ class SalesController extends Controller
      */
     public function index()
     {
+        $choiceProducts = Product::query()
+            ->orderBy('id')
+            ->pluck('name', 'id');
+
         $sales = Sale::query()
             ->orderByDesc('created_at')
             ->paginate();
 
         return view('coffee_sales')
+            ->with('choiceProducts', $choiceProducts)
             ->with('sales', $sales);
     }
 
@@ -35,6 +41,7 @@ class SalesController extends Controller
 
         $sale->quantity = $request->get('quantity', 0);
         $sale->unit_cost = $request->get('unit_cost', 0) * 100;
+        $sale->product_id = $request->get('product');
         $sale->save();
 
         return redirect(route('sales.index'))

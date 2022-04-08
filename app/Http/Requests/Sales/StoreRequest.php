@@ -34,6 +34,11 @@ class StoreRequest extends FormRequest
                 'numeric',
                 'gt:0'
             ],
+            'product' => [
+                'required',
+                'numeric',
+                'exists:products,id'
+            ],
         ];
     }
 }

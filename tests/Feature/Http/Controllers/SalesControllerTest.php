@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
+use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -21,6 +23,8 @@ class SalesControllerTest extends TestCase
     {
         parent::setUp();
 
+        (new ProductSeeder())->call(ProductSeeder::class);
+
         $this->user = User::factory()->create();
 
         $this->actingAs($this->user);
@@ -31,23 +35,29 @@ class SalesControllerTest extends TestCase
         $response = $this->get(route('sales.index'));
 
         $response->assertStatus(200);
-        $response->assertSee('Sales');
+        $response->assertSee($this->user->name);
+        $response->assertViewIs('coffee_sales');
     }
 
     public function testStore()
     {
+        /** @var \App\Models\Product $product */
+        $product = Product::query()
+            ->where('code', Product::CODE_GOLD_COFFEE)
+            ->first();
+
         $response = $this
-            ->followingRedirects()
             ->post(
                 route('sales.store'),
                 [
                     'quantity' => 13,
-                    'unit_cost' => 4.55
+                    'unit_cost' => 4.55,
+                    'product' => $product->id,
                 ]
             );
 
-        $response->assertStatus(200);
-        $response->assertSee('88.87');
+
+        $response->assertStatus(302);
 
         $sale = new Sale();
 
@@ -55,7 +65,8 @@ class SalesControllerTest extends TestCase
             $sale->getTable(),
             [
                 'unit_cost' => 455,
-                'selling_price' => 8887
+                'selling_price' => 8887,
+                'product_id' => $product->id,
             ]
         );
     }

@@ -11,16 +11,16 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property int $quantity
+ * @property int $product_id
  * @property \Cknow\Money\Money $unit_cost
  * @property \Cknow\Money\Money $selling_price
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property \App\Models\Product $product
  */
 class Sale extends Model
 {
     use HasFactory;
-
-    const PROFIT_MARGIN = 25;
 
     const SHIPPING_COST = 1000; // 10.00
 
@@ -40,7 +40,12 @@ class Sale extends Model
         self::observe(SaleObserver::class);
     }
 
-    public static function calcSellingPrice(int $quantity, Money $unitCost): Money
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public static function calcSellingPrice(int $quantity, Money $unitCost, Product $product): Money
     {
         $cost = $unitCost->multiply($quantity);
 
@@ -50,7 +55,7 @@ class Sale extends Model
 
         return $cost
             ->multiply(100)
-            ->divide(100 - self::PROFIT_MARGIN)
+            ->divide(100 - $product->profit_margin)
             ->add(money(self::SHIPPING_COST));
     }
 }

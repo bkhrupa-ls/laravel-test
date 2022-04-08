@@ -24,8 +24,22 @@
                         <form action="{{ route('sales.store') }}" method="post">
                             {{ csrf_field() }}
 
-                            <div class="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
-                                <div class="w-full px-2 md:w-1/4">
+                            <div class="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-1 lg:gap-1">
+                                <div class="flex">
+                                <div class="w-full">
+                                    <x-label for="formSalesProduct" :value="__('Product')" />
+
+                                    <x-select id="formSalesProduct" class="block mt-1 w-full {{ $errors->has('product') ? 'border-red-600' : '' }}"
+                                             name="product"
+                                             :value="old('product')"
+                                             :options="$choiceProducts"
+                                             x-model="product"
+                                             @change="getSellingPrice()"
+                                             />
+                                </div>
+                                </div>
+                                <div class="flex">
+                                <div class="w-full">
                                     <x-label for="formSalesQuantity" :value="__('Quantity')" />
 
                                     <x-input id="formSalesQuantity" class="block mt-1 w-full {{ $errors->has('quantity') ? 'border-red-600' : '' }}"
@@ -36,7 +50,9 @@
                                              @keyup="getSellingPrice()"
                                              />
                                 </div>
-                                <div class="w-full px-2 md:w-1/4">
+                                </div>
+                                <div class="flex">
+                                <div class="w-full">
                                     <x-label for="formSalesUnitCost" :value="__('Unit Cost (£)')" />
 
                                     <x-input id="formSalesUnitCost" class="block mt-1 w-full {{ $errors->has('unit_cost') ? 'border-red-600' : '' }}"
@@ -47,7 +63,9 @@
                                              @keyup="getSellingPrice()"
                                              />
                                 </div>
-                                <div class="w-full px-2 md:w-1/4">
+                                </div>
+                                <div class="flex">
+                                <div class="w-full">
                                     <div class="block font-medium text-sm text-gray-700 mb-1">
                                         {{ __('Selling Price') }}
                                     </div>
@@ -55,11 +73,14 @@
                                         <span x-text="selling_price"></span>
                                     </div>
                                 </div>
-                                <div class="w-full px-2 md:w-1/4">
+                                </div>
+                                <div class="flex">
+                                <div class="w-full">
                                     <div class="block mb-1">&nbsp;</div>
                                     <x-button>
                                         {{ __('Record Sale') }}
                                     </x-button>
+                                </div>
                                 </div>
                             </div>
                         </form>

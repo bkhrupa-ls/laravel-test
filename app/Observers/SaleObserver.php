@@ -11,7 +11,8 @@ class SaleObserver
     {
         $sale->selling_price = Sale::calcSellingPrice(
             $sale->quantity,
-            $sale->unit_cost
+            $sale->unit_cost,
+            $sale->product
         );
     }
 }

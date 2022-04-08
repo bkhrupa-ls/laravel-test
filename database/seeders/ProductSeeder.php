@@ -3,20 +3,20 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProductSeeder extends Seeder
 {
     public $products = [
         [
             'name' => 'Gold coffee',
-            'code' => 'gold_coffee'
+            'code' => Product::CODE_GOLD_COFFEE,
+            'profit_margin' => Product::PROFIT_MARGIN_GOLD_COFFEE,
         ],
         [
             'name' => 'Arabic coffee',
-            'code' => 'arabic_coffee'
+            'code' => Product::CODE_ARABIC_COFFEE,
+            'profit_margin' => Product::PROFIT_MARGIN_ARABIC_COFFEE,
         ],
     ];
 
