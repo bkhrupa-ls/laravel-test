@@ -15,9 +15,9 @@
                     <x-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.index')">
                         {{ __('☕️ Sales') }}
                     </x-nav-link>
-{{--                    <x-nav-link :href="route('shipping.partners')" :active="request()->routeIs('shipping.partners')">--}}
-{{--                        {{ __('Shipping Partners 🚚') }}--}}
-{{--                    </x-nav-link>--}}
+                    <x-nav-link :href="route('shipment-cost.index')" :active="request()->routeIs('shipment-cost.index')">
+                        {{ __('🚚 Shipping Partners') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
             <x-responsive-nav-link :href="route('sales.index')" :active="request()->routeIs('sales.index')">
                 {{ __('☕️ Sales') }}
             </x-responsive-nav-link>
-{{--            <x-responsive-nav-link :href="route('shipping.partners')" :active="request()->routeIs('shipping.partners')">--}}
+{{--            <x-responsive-nav-link :href="route('shipment-cost.index')" :active="request()->routeIs('shipment-cost.index')">--}}
 {{--                {{ __('Shipping Partners 🚚') }}--}}
 {{--            </x-responsive-nav-link>--}}
         </div>

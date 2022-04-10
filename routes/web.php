@@ -27,10 +27,16 @@ Route::middleware(['auth'])
         Route::post('/sales', [\App\Http\Controllers\SalesController::class, 'store'])
             ->name('sales.store');
 
-        Route::get('/shipping-partners', function () {
-            return view('shipping_partners');
-        })
-            ->name('shipping.partners');
+        Route::get(
+            '/shipment-cost',
+            [\App\Http\Controllers\ShipmentCostController::class, 'index']
+        )
+            ->name('shipment-cost.index');
+        Route::post(
+            '/shipment-cost',
+            [\App\Http\Controllers\ShipmentCostController::class, 'store']
+        )
+            ->name('shipment-cost.store');
 
         //
         Route::post(
