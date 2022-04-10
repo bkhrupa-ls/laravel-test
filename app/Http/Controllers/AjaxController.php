@@ -12,18 +12,19 @@ class AjaxController extends Controller
     public function actionCalcSellingPrice(Request $request)
     {
         $productId = (int)$request->get('product');
-        $shipmentCost = ShipmentCost::getActive();
 
-        if (empty($productId)) {
+        try {
+            $shipmentCost = ShipmentCost::getActive();
+            $product = Product::query()->findOrFail($productId);
+        }
+        catch (\Exception $exception) {
             return SimpleResource::make([
                 'selling_price' => 0
             ]);
         }
 
-        $product = Product::query()->find($productId);
         $quantity = (int)$request->get('quantity');
-        $unitCost = (float)$request->get('unit_cost');
-        $unitCost = money($unitCost * 100);
+        $unitCost = toMoney((float)$request->get('unit_cost'));
 
         $sellingPrice = \App\Models\Sale::calcSellingPrice(
             $quantity,

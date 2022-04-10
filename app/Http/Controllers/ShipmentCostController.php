@@ -33,7 +33,7 @@ class ShipmentCostController extends Controller
     {
         $shipmentCost = new ShipmentCost();
 
-        $shipmentCost->cost = $request->get('cost', 0) * 100;
+        $shipmentCost->cost = toMoney((float)$request->get('cost', 0));
 
         $shipmentCost->save();
 

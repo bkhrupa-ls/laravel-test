@@ -40,8 +40,8 @@ class SalesController extends Controller
     {
         $sale = new Sale();
 
-        $sale->quantity = $request->get('quantity', 0);
-        $sale->unit_cost = $request->get('unit_cost', 0) * 100;
+        $sale->quantity = (int)$request->get('quantity', 0);
+        $sale->unit_cost = toMoney((float)$request->get('unit_cost', 0));
         $sale->product_id = $request->get('product');
         $sale->save();
 
