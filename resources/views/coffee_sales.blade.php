@@ -104,6 +104,9 @@
                                                 {{ __('Quantity') }}
                                             </th>
                                             <th class="px-6 py-4 text-left">
+                                                {{ __('Shipping Cost') }}
+                                            </th>
+                                            <th class="px-6 py-4 text-left">
                                                 {{ __('Unit Cost') }}
                                             </th>
                                             <th class="px-6 py-4 text-left">
@@ -126,6 +129,13 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ $sale->quantity }}
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                    @if ($sale->shipmentCost)
+                                                        {{ $sale->shipmentCost->cost->format() }}
+                                                    @else
+                                                        NA
+                                                    @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     {{ $sale->unit_cost->format() }}

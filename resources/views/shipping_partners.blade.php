@@ -84,7 +84,7 @@
                                                     {{ optional($shipmentCost->created_at)->format('Y-m-d H:i') }}
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                     @TODO
+                                                     {{ $shipmentCost->sales_count }}
                                                 </td>
                                             </tr>
                                         @empty

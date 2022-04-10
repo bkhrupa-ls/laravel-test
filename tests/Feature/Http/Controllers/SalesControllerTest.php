@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\ShipmentCostSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -24,6 +25,7 @@ class SalesControllerTest extends TestCase
         parent::setUp();
 
         (new ProductSeeder())->call(ProductSeeder::class);
+        (new ProductSeeder())->call(ShipmentCostSeeder::class);
 
         $this->user = User::factory()->create();
 

@@ -16,6 +16,7 @@ class ShipmentCostController extends Controller
     {
         $shipmentCosts = ShipmentCost::query()
             ->orderByDesc('created_at')
+            ->withCount('sales')
             ->paginate();
 
         return view('shipping_partners')

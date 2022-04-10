@@ -21,6 +21,7 @@ class SalesController extends Controller
             ->pluck('name', 'id');
 
         $sales = Sale::query()
+            ->with('shipmentCost')
             ->orderByDesc('created_at')
             ->paginate();
 

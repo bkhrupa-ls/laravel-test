@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
+ * @property int $shipment_cost_id
  * @property int $quantity
  * @property int $product_id
  * @property \Cknow\Money\Money $unit_cost
@@ -17,12 +18,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \App\Models\Product $product
+ * @property \App\Models\ShipmentCost $shipmentCost
  */
 class Sale extends Model
 {
     use HasFactory;
-
-    const SHIPPING_COST = 1000; // 10.00
 
     protected $casts = [
         'quantity' => 'int',
@@ -45,8 +45,17 @@ class Sale extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public static function calcSellingPrice(int $quantity, Money $unitCost, Product $product): Money
+    public function shipmentCost()
     {
+        return $this->belongsTo(ShipmentCost::class);
+    }
+
+    public static function calcSellingPrice(
+        int $quantity,
+        Money $unitCost,
+        Product $product,
+        ShipmentCost $shipmentCost
+    ): Money {
         $cost = $unitCost->multiply($quantity);
 
         if ($cost->isZero()) {
@@ -56,6 +65,6 @@ class Sale extends Model
         return $cost
             ->multiply(100)
             ->divide(100 - $product->profit_margin)
-            ->add(money(self::SHIPPING_COST));
+            ->add($shipmentCost->cost);
     }
 }

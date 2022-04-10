@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $is_active
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property \Illuminate\Support\Collection|\App\Models\Sale[] $sales
  */
 class ShipmentCost extends Model
 {
@@ -30,5 +31,18 @@ class ShipmentCost extends Model
     protected static function booted()
     {
         self::observe(ShipmentCostObserver::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+
+    public static function getActive()
+    {
+        return self::query()
+            ->where('is_active', true)
+            ->orderByDesc('created_at')
+            ->firstOrFail();
     }
 }

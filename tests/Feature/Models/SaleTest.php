@@ -4,7 +4,9 @@ namespace Tests\Feature\Models;
 
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\ShipmentCost;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\ShipmentCostSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,11 +15,19 @@ class SaleTest extends TestCase
 
     use RefreshDatabase;
 
+    /**
+     * @var \App\Models\ShipmentCost
+     */
+    protected $shipmentCost;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         (new ProductSeeder())->call(ProductSeeder::class);
+        (new ProductSeeder())->call(ShipmentCostSeeder::class);
+
+        $this->shipmentCost = ShipmentCost::getActive();
     }
 
     public function testCast()
@@ -76,7 +86,12 @@ class SaleTest extends TestCase
         $expectedSellingPrice = money($expectedSellingPrice);
         $unitCost = money($unitCost);
 
-        $result = Sale::calcSellingPrice($quantity, $unitCost, $product);
+        $result = Sale::calcSellingPrice(
+            $quantity,
+            $unitCost,
+            $product,
+            $this->shipmentCost
+        );
 
         $this->assertSame(
             $result->getAmount(),
@@ -126,7 +141,12 @@ class SaleTest extends TestCase
         $expectedSellingPrice = money($expectedSellingPrice);
         $unitCost = money($unitCost);
 
-        $result = Sale::calcSellingPrice($quantity, $unitCost, $product);
+        $result = Sale::calcSellingPrice(
+            $quantity,
+            $unitCost,
+            $product,
+            $this->shipmentCost
+        );
 
         $this->assertSame(
             $result->getAmount(),
